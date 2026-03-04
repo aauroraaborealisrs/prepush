@@ -6,14 +6,24 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "postinstall": "xcopy tools\\githooks\\* .git\\hooks\\ /Y /Q",
-    "lint": "eslint .",
+    "postinstall": "node tools/githooks/install.cjs",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --max-warnings=0",
+    "lint:fix": "npm run lint -- --fix",
+    "lint-files": "eslint --fix",
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "format": "prettier . --write",
-    "format:check": "prettier . --check",
-    "typecheck": "tsc --noEmit"
+    "ts-check": "tsc --noEmit"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "node ./node_modules/eslint/bin/eslint.js --max-warnings=0",
+      "node ./node_modules/prettier/bin/prettier.cjs --write"
+    ],
+    "*.{json,css,md,html}": [
+      "node ./node_modules/prettier/bin/prettier.cjs --write"
+    ]
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",

@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
+
 import confetti from 'canvas-confetti';
-import ProgressBar from './ProgressBar';
+
 import ParticleRain from './ParticleRain';
+import ProgressBar from './ProgressBar';
 
 const randomInt = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1)) + min;
 
@@ -18,7 +20,9 @@ export default function TonyMeter() {
             const elapsed = performance.now() - start;
 
             if (elapsed >= 3000) {
-                if (timeoutId) window.clearTimeout(timeoutId);
+                if (timeoutId) {
+                    window.clearTimeout(timeoutId);
+                }
 
                 setValue(finalResult);
                 setDone(true);
@@ -26,10 +30,15 @@ export default function TonyMeter() {
 
             const roll = Math.random();
             let next: number;
-            if (roll < 0.12) next = 0;
-            else if (roll < 0.24) next = 100;
-            else if (roll < 0.55) next = randomInt(10, 65);
-            else next = randomInt(35, 95);
+            if (roll < 0.12) {
+                next = 0;
+            } else if (roll < 0.24) {
+                next = 100;
+            } else if (roll < 0.55) {
+                next = randomInt(10, 65);
+            } else {
+                next = randomInt(35, 95);
+            }
             setValue(next);
             const delay = randomInt(200, 400);
             timeoutId = window.setTimeout(scheduleNextJump, delay);
@@ -38,7 +47,9 @@ export default function TonyMeter() {
         scheduleNextJump();
 
         const hardStop = window.setTimeout(() => {
-            if (timeoutId) window.clearTimeout(timeoutId);
+            if (timeoutId) {
+                window.clearTimeout(timeoutId);
+            }
             setValue(finalResult);
             setDone(true);
             confetti({
@@ -55,14 +66,16 @@ export default function TonyMeter() {
         }, 3000);
 
         return () => {
-            if (timeoutId) window.clearTimeout(timeoutId);
+            if (timeoutId) {
+                window.clearTimeout(timeoutId);
+            }
             window.clearTimeout(hardStop);
         };
     }, [finalResult]);
 
     return (
         <div className="page">
-            <ParticleRain enabled={done} imageSrc={`${import.meta.env.BASE_URL}particle.png`} />
+            <ParticleRain enabled={done} imageSrc={`${import.meta.env.BASE_URL}particle.webp`} />
             <div className="card">
                 <h1 className="title">Насколько Ваня похож на Тони Старка?</h1>
                 <div className="meter">

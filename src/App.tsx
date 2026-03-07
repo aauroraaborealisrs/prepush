@@ -1,10 +1,7 @@
-import './styles.css';
 import TonyMeter from './components/TonyMeter';
 
+import './styles.css';
+
 export default function App() {
-    return (
-        <>
-            <TonyMeter />
-        </>
-    );
+    return <TonyMeter />;
 }

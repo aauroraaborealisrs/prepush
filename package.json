@@ -6,24 +6,19 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "postinstall": "node tools/githooks/install.cjs",
+    "postinstall": "cp tools/githooks/* .git/hooks || true",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --max-warnings=0",
     "lint:fix": "npm run lint -- --fix",
-    "lint-files": "eslint --fix",
+    "lint-files": "eslint --max-warnings=0 --fix",
+    "lint-staged": "lint-staged",
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "format": "prettier . --write",
-    "ts-check": "tsc --noEmit"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "node ./node_modules/eslint/bin/eslint.js --max-warnings=0",
-      "node ./node_modules/prettier/bin/prettier.cjs --write"
-    ],
-    "*.{json,css,md,html}": [
-      "node ./node_modules/prettier/bin/prettier.cjs --write"
-    ]
+    "format": "prettier --write --ignore-unknown .",
+    "format-files": "prettier --write --ignore-unknown",
+    "format:check": "prettier --check --ignore-unknown .",
+    "ts-check": "tsc --noEmit",
+    "check": "npm run ts-check && npm run lint && npm run format"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",
@@ -38,8 +33,10 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "eslint": "^9.39.1",
+    "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "gh-pages": "^6.3.0",
     "globals": "^16.5.0",
     "lint-staged": "^16.3.1",
